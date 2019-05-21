@@ -65,7 +65,7 @@ public class BigQueryCommitCountToBigQuery {
 
   public static void main(String[] args) throws IOException {
     if (args.length != 2) {
-      System.err.println("Usage: BigQueryWordCountToBigQuery <fully-qualified input table id> " +
+      System.err.println("Usage: BigQueryCommitCountToBigQuery <fully-qualified input table id> " +
           "<fully-qualified output table id>");
       System.exit(1);
     }
@@ -113,12 +113,12 @@ public class BigQueryCommitCountToBigQuery {
     // Input configuration.
     BigQueryConfiguration.configureBigQueryInput(conf, inputTableId);
     String inputTmpGcsPath = String
-        .format("gs://%s/spark/tmp/bigquery/wordcount/input", systemBucket);
+        .format("gs://%s/spark/tmp/bigquery/commitcount/input", systemBucket);
     conf.set(BigQueryConfiguration.TEMP_GCS_PATH_KEY, inputTmpGcsPath);
 
     // Output configuration.
     String outputTmpGcsPath = String
-        .format("gs://%s/spark/tmp/bigquery/wordcount/output", systemBucket);
+        .format("gs://%s/spark/tmp/bigquery/commitcount/output", systemBucket);
     BigQueryOutputConfiguration.configure(
         conf,
         outputTableId,
@@ -137,14 +137,14 @@ public class BigQueryCommitCountToBigQuery {
         GsonBigQueryInputFormat.class,
         LongWritable.class,
         JsonObject.class);
-    JavaPairRDD<String, Long> wordCounts = tableData
+    JavaPairRDD<String, Long> commitCounts = tableData
         //.map(entry -> toTuple(entry._2))
         .filter(entry -> !entry._2.get(COMMITTER_COLUMN).isJsonNull())
         .map(entry -> new Tuple2<>(entry._2.get(COMMITTER_COLUMN).toString().trim().toLowerCase(), 1L))
         .keyBy(tuple -> tuple._1)
         .mapValues(tuple -> tuple._2)
         .reduceByKey((count1, count2) -> count1 + count2);
-    wordCounts
+    commitCounts
         .map(tuple -> new Text(toJson(tuple).toString()))
         .keyBy(jsonText -> jsonText)
         .mapValues(jsonText -> NullWritable.get()) // Values do not matter.
