@@ -36,3 +36,6 @@ local:///opt/spark/examples/jars/spark-examples_2.11-2.4.0.jar
 
 # Submitting Applications to Google Kubernetes Engine (GKE)
 
+<p align="center">
+  <img src="assets/spark-gke-1.svg">
+</p>
