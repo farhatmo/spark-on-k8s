@@ -1,0 +1,51 @@
+*.class
+*.log
+*.log.*
+
+# sbt specific
+.cache
+.history
+.lib/
+dist/*
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+# IntelliJ Specific
+_windows/
+inspection/
+.idea/
+*.iml
+*.iws
+debugger.renderers.xml
+debugger.xml
+diff.xml
+file.template.settings.xml
+find.xml
+gitlab-integration-settings.xml
+gitlab-project-settings.xml
+gradle.run.settings.xml
+ide.general.xml
+IntelliLang.xml
+other.xml
+proxy.settings.xml
+scala.xml
+vcs.xml
+web-browsers.xml
+ui.lnf.xml
+terminal.xml
+
+#Maven Specific
+log/
+target/
+mavenVersion.xml
+derby.log
+
+.DS_Store
+.project
+settings.json
